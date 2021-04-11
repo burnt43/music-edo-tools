@@ -189,25 +189,42 @@ end # MusicEdo
 harmonic_series_32 = MusicEdo::Temperment.generate_harmonic_series(32)
 edo_12             = MusicEdo::Temperment.generate_edo(12)
 
-[15].each do |n_edo|
+[14, 15, 17].each do |n_edo|
   n_edo_temperment = MusicEdo::Temperment.generate_edo(n_edo)
 
+  cell_width    = 12
+  printf_string = "%#{cell_width}s"
+
+  # n-edo
   header_line    = StringIO.new
   my_degree_line = StringIO.new
   my_ratio_line  = StringIO.new
 
+  header_line.print('+'*cell_width)
+  my_degree_line.printf(printf_string, "#{n_edo}-edo")
+  my_ratio_line.print(' '*cell_width)
+
+  # Comparison to 12-edo
   edo_12_header_line      = StringIO.new
   edo_12_ratio_line       = StringIO.new
   edo_12_degree_name_line = StringIO.new
   edo_12_cents_line       = StringIO.new
 
+  edo_12_header_line.print('-'*cell_width)
+  edo_12_ratio_line.printf(printf_string, "12-edo")
+  edo_12_degree_name_line.print(' '*cell_width)
+  edo_12_cents_line.print(' '*cell_width)
+
+  # Comparison to Harmonic Series
   harmonic_series_header_line = StringIO.new
   harmonic_series_ratio_line  = StringIO.new
   harmonic_series_name_line   = StringIO.new
   harmonic_series_cents_line  = StringIO.new
 
-  cell_width    = 15
-  printf_string = "%#{cell_width}s"
+  harmonic_series_header_line.print('-'*cell_width)
+  harmonic_series_ratio_line.printf(printf_string, "Harmonics")
+  harmonic_series_name_line.print(' '*cell_width)
+  harmonic_series_cents_line.print(' '*cell_width)
 
   n_edo_temperment.degrees.each do |degree|
     edo_12_degree          = degree.closest_degree_in(edo_12)
@@ -236,6 +253,9 @@ edo_12             = MusicEdo::Temperment.generate_edo(12)
     harmonic_series_name_line.printf(printf_string, harmonic_series_degree.degree_number)
     harmonic_series_cents_line.printf(printf_string, cents)
   end
+
+  puts
+  puts
 
   puts header_line.string
   puts my_degree_line.string
